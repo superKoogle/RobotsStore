@@ -5,24 +5,24 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Repository
 {
-    public class UserRepository
+    public class UserRepository: IUserRepository
     {
         static private string path = "..\\users.JSON";
-        public static User addNewUser(User newUser)
+        public async Task<User> addNewUser(User newUser)
         {
             int numberOfUsers = System.IO.File.ReadLines(path).Count();
             newUser.UserId = numberOfUsers + 1;
-            string userJson = JsonSerializer.Serialize(newUser);
-            System.IO.File.AppendAllText(path, userJson + Environment.NewLine);
+            string userJson =JsonSerializer.Serialize(newUser);
+            await System.IO.File.AppendAllTextAsync(path, userJson + Environment.NewLine);
             return newUser;
         }
 
-        public static User getUserById(int id)
+        public async Task<User> getUserById(int id)
         {
             using (StreamReader reader = System.IO.File.OpenText(path))
             {
                 string? currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
+                while ((currentUserInFile = await reader.ReadLineAsync()) != null)
                 {
                     User user = JsonSerializer.Deserialize<User>(currentUserInFile);
                     if (user.UserId == id)
@@ -32,14 +32,14 @@ namespace Repository
             return null;
         }
 
-        public static User signIn(User uesrData)
+        public async Task<User> signIn(User uesrData)
         {
             using (StreamReader reader = System.IO.File.OpenText(path))
             {
                 string? currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
+                while ((currentUserInFile =await reader.ReadLineAsync()) != null)
                 {
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
+                    User user =  JsonSerializer.Deserialize<User>(currentUserInFile);
                     if (user.Email == uesrData.Email && user.Password == uesrData.Password)
                         return user;
                 }
@@ -47,16 +47,16 @@ namespace Repository
             return null;
         }
 
-        public static void updateUser(User updatedUser, int id)
+        public async Task updateUser(User updatedUser, int id)
         {
             string textToReplace = string.Empty;
             using (StreamReader reader = System.IO.File.OpenText(path))
             {
                 string currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
+                while ((currentUserInFile = await reader.ReadLineAsync()) != null)
                 {
 
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
+                    User user =  JsonSerializer.Deserialize<User>(currentUserInFile);
                     if (user.UserId == id)
                         textToReplace = currentUserInFile;
                 }
@@ -64,9 +64,9 @@ namespace Repository
 
             if (textToReplace != string.Empty)
             {
-                string text = System.IO.File.ReadAllText(path);
+                string text = await System.IO.File.ReadAllTextAsync(path);
                 text = text.Replace(textToReplace, JsonSerializer.Serialize(updatedUser));
-                System.IO.File.WriteAllText(path, text);
+                await System.IO.File.WriteAllTextAsync(path, text);
             }
         }
     }

@@ -4,34 +4,38 @@ using Zxcvbn;
 
 namespace Business
 {
-    public class UserBusiness
+    public class UserBusiness:IUserBusiness
     {
-        public static User addNewUser(User newUser)
+        IUserRepository userRepository;
+        IPasswordBusiness passwordBusiness;
+
+        public UserBusiness(IUserRepository userRepository, IPasswordBusiness passwordBusiness)
         {
-            if (goodPassword(newUser.Password) >= 3)
-                return UserRepository.addNewUser(newUser);
+            this.userRepository = userRepository;
+            this.passwordBusiness = passwordBusiness;
+        }
+        public async Task<User> addNewUser(User newUser)
+        {
+            if (await passwordBusiness.goodPassword(newUser.Password) >= 3)
+                return await userRepository.addNewUser(newUser);
             else
                 return null;
         }
-        public static User GetUserById(int id)
+        public async Task<User> GetUserById(int id)
         {
-            return UserRepository.getUserById(id);
+            return await userRepository.getUserById(id);
         }
 
-        public static User SignIn(User userData)
+        public async Task<User> SignIn(User userData)
         {
-            return UserRepository.signIn(userData);
+            return await userRepository.signIn(userData);
         }
 
-        public static void updateUser(int id, User updatedUser)
+        public async Task updateUser(int id, User updatedUser)
         {
-            UserRepository.updateUser(updatedUser, id);
+            await userRepository.updateUser(updatedUser, id);
         }
 
-        public static int goodPassword(string pwd)
-        {
-            var res = Zxcvbn.Core.EvaluatePassword(pwd);
-            return res.Score;
-        }
+    
     }
 }

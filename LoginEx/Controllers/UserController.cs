@@ -11,37 +11,42 @@ namespace LoginEx.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        IUserBusiness userBusiness;
+        public UserController(IUserBusiness userBusiness)
+        {
+            this.userBusiness = userBusiness;
+        }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public ActionResult<User> Get(int id)
+        public async Task<ActionResult<User>> Get(int id)
         {
-            User user = UserBusiness.GetUserById(id);
+            User user = await userBusiness.GetUserById(id);
             return user != null ? user : NoContent();
         }
 
         // POST api/<UserController>
         [HttpPost]
         [Route("SignIn")]
-        public ActionResult<User> SignIn([FromBody] User userData)
+        public async Task<ActionResult<User>> SignIn([FromBody] User userData)
         {
-            User user = UserBusiness.SignIn(userData);
+            User user = await userBusiness.SignIn(userData);
             return user != null ? user : NoContent();
         }
 
 
         [HttpPost]
-        public CreatedAtActionResult Post([FromBody] User newUser)
+        public async Task<CreatedAtActionResult?> Post([FromBody] User newUser)
         {
-            User user = UserBusiness.addNewUser(newUser);
-            return CreatedAtAction(nameof(Get), new { id = user.UserId }, user);
+            User user = await userBusiness.addNewUser(newUser);
+            return user!=null?CreatedAtAction(nameof(Get), new { id = user.UserId }, user):null;
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] User updatedUser)
+        public async Task Put(int id, [FromBody] User updatedUser)
         {
-            UserBusiness.updateUser(id, updatedUser);
+            await userBusiness.updateUser(id, updatedUser);
         }
 
         // DELETE api/<UserController>/5
@@ -50,11 +55,6 @@ namespace LoginEx.Controllers
         {
         }
 
-        [HttpPost]
-        [Route("password")]
-        public int passwordStrength([FromBody] Pwd pwd)
-        {
-            return UserBusiness.goodPassword(pwd.Password);
-        }
+       
     }
 }

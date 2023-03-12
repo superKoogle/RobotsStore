@@ -9,7 +9,7 @@
         body: JSON.stringify({ "Email": email, "Password": pwd })
     });
     if (response.status == 204) { alert('one or more parameters are wrong'); }
-    if (!response.ok ) { }
+    if (!response.ok) { }
 
     else {
         const user = await response.json();
@@ -31,12 +31,14 @@ const signUp = async () => {
         },
         body: JSON.stringify(user)
     })
-    //if (response.status != 'OK') { alert('request failed'); }
-    //else {
+    if (response.ok) {
+        console.log(response.status)
         const newUser = await response.json();
         sessionStorage.setItem('user', JSON.stringify(newUser));
+
         document.location = "https://localhost:44333/update.html";
-    //}
+    }
+    else { alert('request failed'); }
 }
 
 const fill = () => {
@@ -62,23 +64,23 @@ const updateUser = async () => {
         },
         body: JSON.stringify(user)
     })
-    //if (response.status != 'OK') { alert('request failed'); }
-    //else {
-        const updatedUser = await response.json();
-        sessionStorage.setItem('user', JSON.stringify(updatedUser));
-        alert("user details was updated");
-    //}
+    if (!response.ok) { alert('request failed'); }
+    else {
+    const updatedUser = await response.json();
+    sessionStorage.setItem('user', JSON.stringify(updatedUser));
+    alert("user details was updated");
+    }
 }
 
 const checkPasswordStrength = async () => {
     const pwd = document.getElementById("userpwd2").value;
-    const res = await fetch(`https://localhost:44333/api/user/password`, {
+    const res = await fetch(`https://localhost:44333/api/password`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ Password:pwd })
+        body: JSON.stringify({ Password: pwd })
     })
     const strength = await res.json();
     document.getElementById("file").setAttribute("value", strength);
- }
+}
