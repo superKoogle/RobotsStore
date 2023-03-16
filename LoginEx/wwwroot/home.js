@@ -6,7 +6,7 @@
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ "Email": email, "Password": pwd })
+        body: JSON.stringify({ "userEmail": email, "userPassword": pwd })
     });
     if (response.status == 204) { alert('one or more parameters are wrong'); }
     if (!response.ok) { }
@@ -23,7 +23,7 @@ const signUp = async () => {
     const pwd = document.getElementById("userpwd2").value;
     const fname = document.getElementById("fname2").value;
     const lname = document.getElementById("lname2").value;
-    const user = { FirstName: fname, LastName: lname, Password: pwd, Email: email }
+    const user = { userFname: fname, userLname: lname, userPassword: pwd, userEmail: email }
     const response = await fetch("https://localhost:44333/api/user", {
         method: 'POST',
         headers: {
@@ -43,11 +43,11 @@ const signUp = async () => {
 
 const fill = () => {
     const user = JSON.parse(sessionStorage.getItem('user'));
-    document.getElementById("email").setAttribute('value', user.email);
-    document.getElementById("email").setAttribute('value', user.email);
-    document.getElementById("pwd").setAttribute('value', user.password);
-    document.getElementById("fname").setAttribute('value', user.firstName);
-    document.getElementById("lname").setAttribute('value', user.lastName);
+    document.getElementById("email").setAttribute('value', user.userEmail);
+    //document.getElementById("email").setAttribute('value', user.email);
+    document.getElementById("pwd").setAttribute('value', user.userPassword);
+    document.getElementById("fname").setAttribute('value', user.userFname);
+    document.getElementById("lname").setAttribute('value', user.userLname);
 }
 
 const updateUser = async () => {
@@ -56,7 +56,7 @@ const updateUser = async () => {
     const fname = document.getElementById("fname").value;
     const lname = document.getElementById("lname").value;
     const id = JSON.parse(sessionStorage.getItem('user')).userId;
-    const user = { FirstName: fname, LastName: lname, Password: pwd, Email: email, UserId: id };
+    const user = { userFname: fname, userLname: lname, userPassword: pwd, userEmail: email, UserId: id };
     const response = await fetch(`https://localhost:44333/api/user/${id}`, {
         method: 'PUT',
         headers: {
@@ -79,7 +79,7 @@ const checkPasswordStrength = async () => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ Password: pwd })
+        body: JSON.stringify(pwd)
     })
     const strength = await res.json();
     document.getElementById("file").setAttribute("value", strength);

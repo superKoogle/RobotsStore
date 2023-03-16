@@ -1,16 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Entities
+namespace Entities;
+
+public partial class User
 {
-    public class User
-    {
-        public string? FirstName { get; set; }
+    public int UserId { get; set; }
 
-        public string? LastName { get; set; }
-        [StringLength(maximumLength: 12, ErrorMessage = "too long password")]
-        public string Password { get; set; }
-        [EmailAddress(ErrorMessage = "Email not valid")]
-        public string? Email { get; set; }
-        public int UserId { get; set; }
-    }
+    public string? UserFname { get; set; }
+
+    public string? UserLname { get; set; }
+    [StringLength(maximumLength: 12, ErrorMessage = "too long password")]
+    public string UserPassword { get; set; } = null!;
+    [EmailAddress(ErrorMessage = "Email not valid")]
+    public string UserEmail { get; set; } = null!;
 }

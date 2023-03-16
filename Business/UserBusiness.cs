@@ -16,7 +16,7 @@ namespace Business
         }
         public async Task<User> addNewUser(User newUser)
         {
-            if (await passwordBusiness.goodPassword(newUser.Password) >= 3)
+            if (await passwordBusiness.goodPassword(newUser.UserPassword) >= 3)
                 return await userRepository.addNewUser(newUser);
             else
                 return null;

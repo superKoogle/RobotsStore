@@ -35,11 +35,11 @@ namespace LoginEx.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<CreatedAtActionResult?> Post([FromBody] User newUser)
+        [HttpPost]//SignUp
+        public async Task<ActionResult?> Post([FromBody] User newUser)
         {
             User user = await userBusiness.addNewUser(newUser);
-            return user!=null?CreatedAtAction(nameof(Get), new { id = user.UserId }, user):null;
+            return user!=null?CreatedAtAction(nameof(Get), new { id = user.UserId }, user):BadRequest();
         }
 
         // PUT api/<UserController>/5
