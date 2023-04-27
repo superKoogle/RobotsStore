@@ -19,9 +19,9 @@ namespace LoginEx.Controllers
         // POST api/<PasswordController>
         [HttpPost]
        
-        public async Task<int> passwordStrength([FromBody] Pwd pwd)
+        public async Task<int> passwordStrength([FromBody] string pwd)
         {
-            return await passwordBusiness.goodPassword(pwd.Password);
+            return await passwordBusiness.goodPassword(pwd);
         }
       
 
