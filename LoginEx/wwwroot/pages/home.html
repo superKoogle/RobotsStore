@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="../scripts/home.js"></script>
+    <link href="../styles/StyleSheet.css" rel="stylesheet" />
+</head>
+<body>
+    <a href="products.html">products</a>
+    <div id="login-form">
+        <h2>Sign In</h2>
+        <input id="username" type="text" placeholder="user name" /><br /><br />
+        <input id="userpwd" type="password" placeholder="password" /><br /><br />
+        <button onclick="signIn()">login</button><br /><br />
+        <div id="signup-link"><a onclick="document.getElementById('signup-form').style.setProperty('visibility', 'visible')">sign up</a><br /></div>
+    </div>
+    <br /><br />
+    <div style="visibility:hidden;" id="signup-form">
+        <h2>Sign Up</h2>
+        <input id="username2" type="text" placeholder="user name" /><br /><br />
+        <input id="userpwd2" type="password" placeholder="password" onkeyup="checkPasswordStrength()" /><br /><br />
+        <label for="file">Password Strength:</label>
+        <progress id="file" value="0" max="4"> 0% </progress><br /><br />
+        <input id="fname2" type="text" placeholder="first name" /><br /><br />
+        <input id="lname2" type="text" placeholder="last name" /><br /><br />
+        <button onclick="signUp()">sign up</button>
+    </div>
+</body>
+</html>
