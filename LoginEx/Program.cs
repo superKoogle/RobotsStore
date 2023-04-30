@@ -18,14 +18,14 @@ builder.Services.AddTransient<IPasswordBusiness, PasswordBusiness>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Store214104465Context>(options=>options.UseSqlServer("Data Source=srv2\\PUPILS;Integrated Security=True"));
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //app.UseSwagger();
+    //app.UseSwaggerUI();
 }
 
 // Configure the HTTP request pipeline.

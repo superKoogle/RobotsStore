@@ -35,8 +35,8 @@ namespace LoginEx.Controllers
         }
 
 
-        [HttpPost]//Sign Up
-        public async Task<ActionResult> Post([FromBody] User newUser)
+        [HttpPost]//SignUp
+        public async Task<ActionResult?> Post([FromBody] User newUser)
         {
             User user = await userBusiness.addNewUser(newUser);
             return user!=null?CreatedAtAction(nameof(Get), new { id = user.UserId }, user): BadRequest();

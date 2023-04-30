@@ -21,6 +21,11 @@ namespace Repository
             await _store214104465Context.Users.AddAsync(newUser);
             await _store214104465Context.SaveChangesAsync();
             return newUser;
+            //int numberOfUsers = System.IO.File.ReadLines(path).Count();
+            //newUser.UserId = numberOfUsers + 1;
+            //string userJson = JsonSerializer.Serialize(newUser);
+            //await System.IO.File.AppendAllTextAsync(path, userJson + Environment.NewLine);
+
         }
 
         public async Task<User> getUserById(int id)
