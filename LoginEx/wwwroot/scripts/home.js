@@ -36,17 +36,13 @@ const signUp = async () => {
         const newUser = await response.json();
         localStorage.setItem('user', JSON.stringify(newUser));
 
-        document.location = "https://localhost:44333/update.html";
+        document.location = "https://localhost:44333/pages/update.html";
     }
     else { alert('request failed'); }
 }
 
 const fill = () => {
-<<<<<<< HEAD:LoginEx/wwwroot/scripts/home.js
     const user = JSON.parse(localStorage.getItem('user'));
-=======
-    const user = JSON.parse(sessionStorage.getItem('user'));
->>>>>>> d856c81214e55ffe1cdfae28b1cb05f4d7ed99b5:LoginEx/wwwroot/home.js
     document.getElementById("email").setAttribute('value', user.userEmail);
     //document.getElementById("email").setAttribute('value', user.email);
     document.getElementById("pwd").setAttribute('value', user.userPassword);
@@ -59,11 +55,7 @@ const updateUser = async () => {
     const pwd = document.getElementById("pwd").value;
     const fname = document.getElementById("fname").value;
     const lname = document.getElementById("lname").value;
-<<<<<<< HEAD:LoginEx/wwwroot/scripts/home.js
     const id = JSON.parse(localStorage.getItem('user')).userId;
-=======
-    const id = JSON.parse(sessionStorage.getItem('user')).userId;
->>>>>>> d856c81214e55ffe1cdfae28b1cb05f4d7ed99b5:LoginEx/wwwroot/home.js
     const user = { userFname: fname, userLname: lname, userPassword: pwd, userEmail: email, UserId: id };
     const response = await fetch(`https://localhost:44333/api/user/${id}`, {
         method: 'PUT',

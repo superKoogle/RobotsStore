@@ -53,5 +53,10 @@ const placeOrder = async () => {
         body: JSON.stringify({ orderDate, orderSum, userId: user.userId, orderItems })
     })
     console.log(response.status);
-    if (response.ok) localStorage.setItem("cart", null);
+    if (response.ok) {
+        localStorage.setItem("cart", null)
+        const order = await response.json();
+        console.log(order);
+        alert(`order with id ${order.orderId} has been successfully created.`);
+    };
 }

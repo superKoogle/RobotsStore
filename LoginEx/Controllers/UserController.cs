@@ -1,5 +1,7 @@
-﻿using Business;
+﻿using AutoMapper;
+using Business;
 using Entities;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -11,41 +13,53 @@ namespace LoginEx.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        ILogger<UserController> _logger;
         IUserBusiness userBusiness;
-        public UserController(IUserBusiness userBusiness)
+        IMapper _mapper;
+        public UserController(IUserBusiness userBusiness, IMapper mapper, ILogger<UserController> logger)
         {
+            _logger = logger;
             this.userBusiness = userBusiness;
+            _mapper = mapper;
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(int id)
+        public async Task<ActionResult<UserDTO>> Get(int id)
         {
             User user = await userBusiness.GetUserById(id);
-            return user != null ? user : NoContent();
+            UserDTO userDTO = _mapper.Map<User, UserDTO>(user);
+            return userDTO != null ? userDTO : NoContent();
         }
 
         // POST api/<UserController>
         [HttpPost]
-        [Route("SignIn")]
-        public async Task<ActionResult<User>> SignIn([FromBody] User userData)
+        [Route("SignIn")]//no dto yet
+        public async Task<ActionResult<UserDTO>> SignIn([FromBody] UserLoginDTO userLoginData)
         {
+
+            User userData = _mapper.Map<UserLoginDTO, User>(userLoginData);
             User user = await userBusiness.SignIn(userData);
-            return user != null ? user : NoContent();
+            UserDTO userDTO = _mapper.Map<User, UserDTO>(user);
+            _logger.LogInformation($"\nLogin: userName - {userDTO.UserEmail} at {DateTime.UtcNow.ToLongTimeString()}\n");
+            return userDTO != null ? userDTO : NoContent();
         }
 
 
         [HttpPost]//SignUp
-        public async Task<ActionResult?> Post([FromBody] User newUser)
+        public async Task<ActionResult?> Post([FromBody] UserDTO newUserDto)
         {
+            User newUser = _mapper.Map<UserDTO, User>(newUserDto);
             User user = await userBusiness.addNewUser(newUser);
-            return user!=null?CreatedAtAction(nameof(Get), new { id = user.UserId }, user): BadRequest();
+            UserDTO userDTO = _mapper.Map<User, UserDTO>(user);
+            return userDTO!=null?CreatedAtAction(nameof(Get), new { id = userDTO.UserId }, userDTO): BadRequest();
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public async Task Put(int id, [FromBody] User updatedUser)
+        public async Task Put(int id, [FromBody] UserDTO updatedUserDto)
         {
+            User updatedUser = _mapper.Map<UserDTO, User>(updatedUserDto);
             await userBusiness.updateUser(id, updatedUser);
         }
 

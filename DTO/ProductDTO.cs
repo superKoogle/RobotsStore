@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Entities;
+namespace DTO;
 
-public partial class Product
+public partial class ProductDTO
 {
     public int ProductId { get; set; }
 
@@ -13,12 +13,10 @@ public partial class Product
     public double Price { get; set; }
 
     public int CategoryId { get; set; }
+    public string? CategoryName { get; set; }
 
     public string? Description { get; set; }
 
     public string ImagePath { get; set; } = null!;
-
-    public virtual Category? Category { get; set; } = null!;
-  
-    public virtual ICollection<OrderItem> OrderItems { get; } = new List<OrderItem>();
+    
 }

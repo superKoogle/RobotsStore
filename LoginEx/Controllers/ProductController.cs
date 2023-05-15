@@ -1,6 +1,9 @@
-﻿using Business;
+﻿using AutoMapper;
+using Business;
 using Entities;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,34 +14,40 @@ namespace LoginEx.Controllers
     public class ProductController : ControllerBase
     {
         IProductBusiness _productBusiness;
+        IMapper _mapper;
 
-        public ProductController(IProductBusiness productBusiness)
+        public ProductController(IProductBusiness productBusiness, IMapper mapper)
         {
             this._productBusiness = productBusiness;
+            this._mapper = mapper;
         }
 
         // GET: api/<ProductController>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> Get([FromQuery] IEnumerable<string>? categories, string? name, int? minPrice, int? maxPrice)
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> Get([FromQuery] IEnumerable<string>? categories, string? name, int? minPrice, int? maxPrice)
         {
             IEnumerable<Product> products = await _productBusiness.GetProducts(categories, name, minPrice, maxPrice);
-            return products.Count() > 0 ? Ok(products) : NoContent();
+            IEnumerable<ProductDTO> productDTOs = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
+            return productDTOs.Count() > 0 ? Ok(productDTOs) : NoContent();
         }
 
         // GET api/<ProductController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> Get(int id)
+        public async Task<ActionResult<ProductDTO>> Get(int id)
         {
             Product product = await _productBusiness.GetProductById(id);
-            return product!=null ? Ok(product) : NoContent();
+            ProductDTO productDto = _mapper.Map<Product, ProductDTO>(product);
+            return productDto != null ? Ok(productDto) : NoContent();
         }
 
         // POST api/<ProductController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Product product)
+        public async Task<ActionResult> Post([FromBody] ProductDTO productDto)
         {
+            Product product = _mapper.Map<ProductDTO, Product>(productDto);
             product = await _productBusiness.AddProduct(product);
-            return product.ProductId != 0 ? Ok(product) : BadRequest();
+            productDto = _mapper.Map<Product, ProductDTO>(product);
+            return productDto.ProductId != 0 ? Ok(productDto) : BadRequest();
         }
     }
 }

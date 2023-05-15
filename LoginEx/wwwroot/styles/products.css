@@ -51,7 +51,7 @@ p.description {
 }
 
 .bar::before {
-    content: 'חנות הצעצועים שלי';
+    content: 'Our best Robots shop';
     color: white;
     /* display: inline-block; */
     position: absolute;
