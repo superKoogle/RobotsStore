@@ -18,8 +18,8 @@ namespace Repository
         static private string path = "..\\users.JSON";
         public async Task<User> addNewUser(User newUser)
         {
-            await _store214087579Context.Users.AddAsync(newUser);
-            await _store214087579Context.SaveChangesAsync();
+            await _store214104465Context.Users.AddAsync(newUser);
+            await _store214104465Context.SaveChangesAsync();
             return newUser;
             //int numberOfUsers = System.IO.File.ReadLines(path).Count();
             //newUser.UserId = numberOfUsers + 1;

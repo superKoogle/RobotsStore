@@ -49,6 +49,7 @@ const getAllCategories = async (products) => {
     })
     return categories;
 }
+
 const addToCart = (product) => {
     var cart = JSON.parse(localStorage.getItem("cart")) || [];
     const existItem = cart.find(p => p.productId == product.productId);
@@ -56,6 +57,7 @@ const addToCart = (product) => {
     localStorage.setItem("cart", JSON.stringify(cart));
     document.querySelector("#ItemsCountText").innerText = cart.length;
 }
+
 const filterProducts = async () => {
     const categoriesNodes = document.querySelector("#categoryList").querySelectorAll("div");
     var categories = [];
@@ -75,7 +77,7 @@ const createQueryString = (categories, name, minPrice, maxPrice) => {
         for (var i = 0; i < categories.length; i++) {
             query = query.concat(`categories=${categories[i]}&`);
         }      
-    }
+        }
     if (name != null)
         query = query.concat(`name=${name}&`);
     if (minPrice != null)
@@ -86,3 +88,4 @@ const createQueryString = (categories, name, minPrice, maxPrice) => {
 }
 
 document.addEventListener("load", pageLoad());
+

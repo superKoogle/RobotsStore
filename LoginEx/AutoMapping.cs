@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entities;
 using DTO;
+
 namespace LoginEx
 {
     public class AutoMapping:Profile

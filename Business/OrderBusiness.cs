@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
+using Microsoft.Extensions.Logging;
 
 namespace Business
 {
@@ -28,7 +30,7 @@ namespace Business
             {
                 _logger.LogWarning("Mismatch in order sum");
                 return order;
-            }
+            } 
 
             return await _orderRepository.AddOrder(order);
         }
@@ -37,6 +39,7 @@ namespace Business
         {
             return await _orderRepository.GetOrderById(id);
         }
+
         private async Task<bool> ValidateOrderSum(Order order)
         {
             double sum = 0;

@@ -20,8 +20,8 @@ namespace Repository
         {
             return await _store214087579.Products.Include(p => p.Category).Where(p =>
             ( categories.Count()==0?true: !categories.Contains(p.Category.CategoryName)) &&//categories.Count() == 0 ? false :
-            (name == null || p.ProductName.Contains(name)) &&
-            (minPrice == null || p.Price >= minPrice) &&
+                (name == null || p.ProductName.Contains(name)) && 
+                (minPrice == null || p.Price >= minPrice) && 
             (maxPrice == null || p.Price <= maxPrice)
 
                 ).OrderBy(p => p.Price).ToListAsync();

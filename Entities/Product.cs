@@ -19,6 +19,6 @@ public partial class Product
     public string ImagePath { get; set; } = null!;
 
     public virtual Category? Category { get; set; } = null!;
-
+  
     public virtual ICollection<OrderItem> OrderItems { get; } = new List<OrderItem>();
 }
