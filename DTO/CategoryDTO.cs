@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace Entities;
+namespace DTO;
 
-public partial class Category
+public partial class CategoryDTO
 {
     public int CategoryId { get; set; }
 
     public string CategoryName { get; set; } = null!;
-  
-    public virtual ICollection<Product> Products { get; } = new List<Product>();
+
+    //public virtual ICollection<ProductDTO> Products { get; } = new List<ProductDTO>();
 }

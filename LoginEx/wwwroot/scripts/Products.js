@@ -44,7 +44,7 @@ const getAllCategories = async (products) => {
         const temp = document.getElementById("temp-category");
         const clone = temp.content.cloneNode(true);
         clone.querySelector(".OptionName").innerText = category.categoryName;
-        clone.querySelector(".Count").innerText = products.filter(p => p.category.categoryName == category.categoryName).length;
+        clone.querySelector(".Count").innerText = products.filter(p => p.categoryName == category.categoryName).length;
         document.getElementById("categoryList").appendChild(clone);
     })
     return categories;

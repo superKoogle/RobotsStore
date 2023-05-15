@@ -44,7 +44,10 @@ const placeOrder = async () => {
     const orderSum = cart.reduce((accumulator, prod) => {
         return accumulator + prod.price * prod.count;
     }, 0)
-    if (localStorage.getItem("user") == null) return;
+    if (localStorage.getItem("user") == null) {
+        alert("To buy you must log in")
+        return;
+    }
     const userId = JSON.parse(localStorage.getItem("user")).userId;
     const orderItems = cart.map(p => { return { productId: p.productId, quantity: p.count } });
     const response = await fetch("https://localhost:44333/api/Order", {
@@ -55,5 +58,10 @@ const placeOrder = async () => {
         body: JSON.stringify({ orderDate, orderSum, userId, orderItems })
     })
     console.log(response.status);
-    if (response.ok) localStorage.setItem("cart", null);
+    if (response.ok) {
+        localStorage.setItem("cart", null);
+        const order = await response.json();
+        alert(`order with id ${order.orderId} has been successfully`)
+    }
+        
 }
